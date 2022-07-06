@@ -1,5 +1,5 @@
 # iTeacher
-An Educatif Chatbot using Python and Flask REST API and Html sass and javascript
+An Educatif Chatbot with Deep Learning, Python and Flask REST API and Html sass and javascript
 
 ## Table of Contents
 
@@ -11,8 +11,9 @@ An Educatif Chatbot using Python and Flask REST API and Html sass and javascript
 1. TensorFlow
 2. Flask
 3. nltk
-4. python
-5. Sass
+4. Keras
+5. python
+6. Sass
 
 
 ## VsCode SetUp
@@ -41,6 +42,15 @@ source ./venv/bin/activate  # sh, bash, or zsh
 6. Run ```pip install -U Flask``` to install ```flask```
 7. To expose your bot via Ngrok, run ```pip install flask-ngrok``` to install ```flask-ngrok``` Then you'll need to configure your ngrok credentials(login: email + password) Then uncomment this line ```run_with_ngrok(app) ``` and comment the last two lines ```if __name__ == "__main__": app.run() ``` Notice that ngrok is not used by default.
 8. To access your bot on localhost, go to ```http://127.0.0.1:5000/ ``` If you're on Ngrok your url will be ```some-text.ngrok.io```
+
+## Architecture
+
+train.py — the code for reading in the natural language data into a training set and using a Keras sequential neural network to create a model
+template — countain the code of user interface.
+classes.pkl — a list of different types of classes of responses
+words.pkl — a list of different words that could be used for pattern recognition
+intents.json — abunch of JavaScript objects that lists different tags that correspond to different types of word patterns
+chatbot_model.h5 — the actual model created by train_chatbot.py and used by chatgui.py
 
 
 ### Execution
