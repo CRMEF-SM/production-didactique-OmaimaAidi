@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link  type='text/css' rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+    <title>iTeacher</title>
+</head>
+
+<body>
+
+   
+        <img class="logo" src="./static/logo.jpeg" alt="">
+ 
+
+
+      <div class="content ">
+        <div class="side_image">
+          <img src="./static/image.png" alt="">
+        </div>
+        <div class="right_content">
+          <iframe width="97%" height="450px" src="https://www.youtube.com/embed/gcQMBK53UjI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+    <button class="chatbox-open">
+        <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+      </button>
+    <button class="chatbox-close">
+        <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+      </button>
+
+
+    <section class="chatbox-popup">
+      <form>
+      <div class="chatbox-popup__header">
+        <div style="flex:3">
+            <img class=" chatbox-popup__avatar" src="./static/bot.png" alt="Avatar">
+     
+        </div>
+        <div style="flex:8">
+          <h1>iTeacher</h1> 
+        </div>
+    
+      </div>
+      <div class="chatbox-popup__main"  id="chatbox-popup">
+       
+      
+            <div  id="chat" style="flex:12" >
+                    <p id="botText" class="botText"> <b> Hi !</b> <br> i am your virtual teacher 
+                     
+                </div>
+          
+   
+    </div>
+      <div class="chatbox-popup__footer" class="col-md-4 ml-auto mr-auto">
+        <div id="userInput" >
+          
+              <input id="text" type="text" name="msg" placeholder="Message" class="form-control">
+              <button type="submit" id="send" >Send</button>
+            </div>
+        
+      </div>
+
+        </form>
+    </section>
+
+
+</div>
+</body>
+
+<script>
+
+var $j = jQuery.noConflict();
+    $j(document).ready(function() {
+     
+
+      $j(() => {
+        $j(".chatbox-open").click(() =>
+        $j(".chatbox-popup, .chatbox-close").fadeIn()
+  );
+
+  $j(".chatbox-close").click(() =>
+  $j(".chatbox-popup, .chatbox-close").fadeOut()
+  );
+
+  $j(".chatbox-maximize").click(() => {
+    $j(".chatbox-popup, .chatbox-open, .chatbox-close").fadeOut();
+    $j(".chatbox-panel").fadeIn();
+    $j(".chatbox-panel").css({ display: "flex" });
+  });
+
+  $j(".chatbox-minimize").click(() => {
+    $j(".chatbox-panel").fadeOut();
+    $j(".chatbox-popup, .chatbox-open, .chatbox-close").fadeIn();
+  });
+  $j(".chatbox-panel-close").click(() => {
+    $j(".chatbox-panel").fadeOut();
+    $j(".chatbox-open").fadeIn();
+  });
+});
+
+$j('#chatbox-popup').css("overflow-y", "scroll");
+$j('#chat').css("max-height", "200px");
+
+        $j("form").on("submit", function(event) {
+            var rawText = $j("#text").val();
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $j("#text").val("");
+            $j("#chat").append(userHtml);
+            
+            document.getElementById("userInput").scrollIntoView({
+                block: "start",
+                behavior: "smooth",
+            });
+            $j.ajax({
+                data: {
+                    msg: rawText,
+                },
+                type: "POST",
+                url: "/get",
+            }).done(function(data) {
+                var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+                $j("#chat").append($j.parseHTML(botHtml));
+                document.getElementById("userInput").scrollIntoView({
+                    block: "start",
+                    behavior: "smooth",
+                });
+            });
+            $j("#chatbox-popup").scrollTop($j("#chatbox-popup")[0].scrollHeight);
+            event.preventDefault();
+        });
+        
+    });
+  
+
+
+
+</script>
+</html>
